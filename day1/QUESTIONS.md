@@ -1,5 +1,5 @@
 1. How much is the current memory capacity of a canister?  
-The current memory capacity is 4GB.  
+The current memory capacity is 48GB.  
 2. What is the issue with the following code sample?  
 We should declare ```Counter``` as a mutable variable ```var counter : Nat = 0;```.  
 3. What is the issue with the following code sample?  
