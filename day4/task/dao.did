@@ -1,0 +1,70 @@
+type VoteRequire = 
+ record {
+   limit_to_vote: opt nat;
+   method: Method;
+   proposal_vote_threshold: opt nat;
+ };
+type VoteArgs = 
+ record {
+   proposal_id: nat;
+   vote: Vote;
+ };
+type Vote = 
+ variant {
+   no;
+   yes;
+ };
+type Tokens = record {amount_e8s: int;};
+type Result_1 = 
+ variant {
+   err: text;
+   ok: nat;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok: ProposalState;
+ };
+type ProposalState = 
+ variant {
+   accepted;
+   executing;
+   failed: text;
+   open;
+   rejected;
+   succeeded;
+ };
+type Proposal = 
+ record {
+   id: nat;
+   limit_to_vote: nat;
+   method: Method;
+   payload: text;
+   proposal_vote_threshold: nat;
+   proposer: principal;
+   state: ProposalState;
+   timestamp: int;
+   voters: List;
+   votes_no: Tokens;
+   votes_yes: Tokens;
+ };
+type Method = 
+ variant {
+   general;
+   quadratic;
+ };
+type List = 
+ opt record {
+       principal;
+       List;
+     };
+service : {
+  get_all_proposals: () -> (vec record {
+                                  int;
+                                  Proposal;
+                                }) query;
+  get_proposal: (nat) -> (opt Proposal) query;
+  submit_proposal: (text, VoteRequire) -> (Result_1);
+  vote: (VoteArgs) -> (Result);
+  whoami: () -> (principal) query;
+}
